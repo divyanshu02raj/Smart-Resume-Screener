@@ -32,7 +32,7 @@ function App() {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:5001/api/screen', formData, {
+      const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setResult(response.data);
