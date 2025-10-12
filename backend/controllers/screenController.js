@@ -109,11 +109,14 @@ exports.screenResume = async (req, res) => {
         const processingPromises = req.files.map(async (file) => {
             const resumeText = await getTextFromPdf(file.buffer);
             const screeningResult = await callGeminiAPI(resumeText, jobDescription);
+
             const newCandidate = new Candidate({
+                user: req.user.id,
                 jobDescription,
                 resumeText,
                 screeningResult,
             });
+            
             newCandidate.screeningResult.candidate_name = screeningResult.candidate_name || file.originalname;
             return newCandidate.save();
         });
@@ -132,9 +135,8 @@ exports.screenResume = async (req, res) => {
 
 exports.generateReport = async (req, res) => {
     const { results } = req.body;
-    
-    // IMPORTANT: Replace this placeholder with your actual deployed Vercel URL
-    const appUrl = "https://smart-resume-screener-one.vercel.app/";
+
+    const appUrl = "https://smart-resume-screener-one.vercel.app"; //http://localhost:3000
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename=screening_report.pdf');
@@ -145,4 +147,14 @@ exports.generateReport = async (req, res) => {
         results,
         appUrl
     );
+};
+
+exports.getScreeningHistory = async (req, res) => {
+    try {
+        const history = await Candidate.find({ user: req.user.id }).sort({ uploadDate: -1 });
+        res.status(200).json(history);
+    } catch (error) {
+        console.error("Error fetching history:", error);
+        res.status(500).json({ error: "Failed to fetch screening history." });
+    }
 };

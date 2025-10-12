@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const CandidateSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User' // This creates the link to the User model
+    },
     jobDescription: {
         type: String,
         required: true

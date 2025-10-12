@@ -1,7 +1,8 @@
-import { useState, useMemo  } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import ScreeningForm from './components/ScreeningForm';
-import ResultsDashboard from './components/ResultsDashboard'; 
+import ResultsDashboard from './components/ResultsDashboard';
+import ThemeToggle from './components/ThemeToggle';
 import { motion } from 'framer-motion';
 
 function App() {
@@ -12,6 +13,23 @@ function App() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState('');
 
+  // Fetch history when the app loads
+  useEffect(() => {
+    const fetchHistory = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('https://smart-resume-screener-mcth.onrender.com/api/screen'); //http://localhost:5001
+        setResults(response.data);
+      } catch (err) {
+        console.error("Failed to fetch history:", err);
+        setError('Could not load past screening results.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchHistory();
+  }, []);
+
   const handleFileChange = (e) => setResumeFiles(e.target.files);
 
   const handleSubmit = async (e) => {
@@ -21,17 +39,13 @@ function App() {
       return;
     }
     const formData = new FormData();
-    for (let i = 0; i < resumeFiles.length; i++) {
-      formData.append('resumes', resumeFiles[i]);
-    }
+    for (let i = 0; i < resumeFiles.length; i++) { formData.append('resumes', resumeFiles[i]); }
     formData.append('jobDescription', jobDescription);
     setIsLoading(true);
     setError('');
     setResults([]);
     try {
-      const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen', formData, { headers: { 'Content-Type': 'multipart/form-data' } }); //http://localhost:5001
       setResults(response.data);
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -64,32 +78,24 @@ function App() {
   };
 
   const summaryStats = useMemo(() => {
-      if (results.length === 0) {
-        return { total: 0, topTier: 0, topCandidate: 'N/A' };
-      }
-
-      const topTierCount = results.filter(r => r.screeningResult.match_score >= 80).length;
-      
-      const sorted = [...results].sort((a, b) => b.screeningResult.match_score - a.screeningResult.match_score);
-      const top = sorted[0]?.screeningResult.candidate_name || 'N/A';
-
-      return {
-        total: results.length,
-        topTier: topTierCount,
-        topCandidate: top,
-      };
+    if (results.length === 0) { return { total: 0, topTier: 0, topCandidate: 'N/A' }; }
+    const topTierCount = results.filter(r => r.screeningResult.match_score >= 80).length;
+    const sorted = [...results].sort((a, b) => b.screeningResult.match_score - a.screeningResult.match_score);
+    const top = sorted[0]?.screeningResult.candidate_name || 'N/A';
+    return { total: results.length, topTier: topTierCount, topCandidate: top };
   }, [results]);
 
   return (
-    <div className="min-h-screen w-full p-4 sm:p-8">
+    <div className="min-h-screen w-full p-4 sm:p-8 bg-gray-100 dark:bg-background">
+      <ThemeToggle />
       <motion.header 
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="text-center mb-12 max-w-3xl mx-auto"
       >
-        <h1 className="text-5xl md:text-6xl font-extrabold text-white">Smart Resume Screener</h1>
-        <p className="text-text-secondary mt-3 text-lg">Instantly transform resumes into actionable intelligence.</p>
+        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-800 dark:text-white">Smart Resume Screener</h1>
+        <p className="text-gray-500 dark:text-text-secondary mt-3 text-lg">Instantly transform resumes into actionable intelligence.</p>
       </motion.header>
 
       <div className="max-w-6xl mx-auto">
