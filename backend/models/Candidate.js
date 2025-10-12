@@ -10,6 +10,7 @@ const CandidateSchema = new mongoose.Schema({
         required: true
     },
     screeningResult: {
+        candidate_name: String,
         match_score: Number,
         justification: String,
         candidate_skills: [String],

@@ -3,10 +3,9 @@ const router = express.Router();
 const multer = require('multer');
 const screenController = require('../controllers/screenController');
 
-// Configure multer to store the uploaded file in memory
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Define the POST route. 'resume' is the field name for the uploaded file.
-router.post('/', upload.single('resume'), screenController.screenResume);
+router.post('/', upload.array('resumes', 10), screenController.screenResume); 
+router.post('/report', screenController.generateReport);
 
 module.exports = router;
