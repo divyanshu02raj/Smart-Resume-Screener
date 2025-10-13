@@ -13,32 +13,23 @@ export const AuthProvider = ({ children }) => {
         const verifyUserSession = async () => {
             const storedUser = JSON.parse(localStorage.getItem('user'));
 
-            // Only proceed if a user is found in storage
             if (storedUser && storedUser.token) {
                 try {
-                    // --- THE FIX ---
-                    // Ask the backend: "Is this user's token still valid?"
                     const config = {
                         headers: {
                             Authorization: `Bearer ${storedUser.token}`,
                         },
                     };
-                    
-                    // Replace with your actual deployed backend URL
-                    await axios.get('http://localhost:5001/api/users/me', config); ////https://smart-resume-screener-mcth.onrender.com
+L
+                    await axios.get('https://smart-resume-screener-mcth.onrender.com/api/users/me', config);
 
-
-                    // If the API call succeeds, the token is valid. Set the user.
                     setUser(storedUser);
 
                 } catch (err) {
-                    // If the API call fails (e.g., with a 401 error), the token is invalid.
-                    // Log the user out to clear the bad data from localStorage.
                     authService.logout();
                     setUser(null);
                 }
             }
-            // The authentication check is now definitively complete.
             setIsLoading(false);
         };
 

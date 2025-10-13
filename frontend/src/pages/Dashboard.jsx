@@ -7,7 +7,6 @@ import ThemeToggle from '../components/ThemeToggle';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 
-// A dedicated LogoutButton component for a cleaner look
 const LogoutButton = () => {
     const navigate = useNavigate();
     const { logout } = useAuth();
@@ -30,7 +29,6 @@ function Dashboard() {
     const { user } = useAuth();
     const [jobDescription, setJobDescription] = useState('');
     const [resumeFiles, setResumeFiles] = useState(null);
-    // This state now holds an array of BATCHES, not individual results
     const [batches, setBatches] = useState([]); 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -41,12 +39,10 @@ function Dashboard() {
             setIsLoading(true);
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const response = await axios.get('http://localhost:5001/api/screen', config);
-                setBatches(response.data); // The API now returns an array of batches
+                const response = await axios.get('https://smart-resume-screener-mcth.onrender.com/api/screen', config);
+                setBatches(response.data);
             } catch (err) {
                 console.error("Failed to fetch history:", err);
-                // We can comment this out to prevent a benign error message on first login
-                // setError('Could not load past screening results.'); 
             } finally {
                 setIsLoading(false);
             }
@@ -78,10 +74,8 @@ function Dashboard() {
         
         try {
             const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` } };
-            const response = await axios.post('http://localhost:5001/api/screen', formData, config);
-            
-            // The API now returns an array with the single new batch.
-            // We add this new batch to the top of our existing list for an instant UI update.
+            const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen', formData, config);
+
             setBatches(prevBatches => [...response.data, ...prevBatches]);
 
         } catch (err) {
@@ -92,12 +86,8 @@ function Dashboard() {
         }
     };
     
-    // Note: handleDownloadReport and summaryStats are no longer needed in this component.
-    // This logic has been moved to the new BatchCard component for better encapsulation.
-
     return (
         <div className="min-h-screen w-full p-4 sm:p-6 bg-gray-100 dark:bg-background">
-            {/* Top Navigation Bar */}
             <nav className="max-w-7xl mx-auto flex justify-between items-center mb-8">
                 <div className="flex items-center gap-3">
                     <img src="/logo.png" alt="Logo" className="h-8 w-8"/>
@@ -110,7 +100,6 @@ function Dashboard() {
                 </div>
             </nav>
 
-            {/* Hero Header */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -121,7 +110,6 @@ function Dashboard() {
                 <p className="text-gray-500 dark:text-text-secondary mt-3 text-lg">Instantly transform resumes into actionable intelligence.</p>
             </motion.div>
 
-            {/* Main Content */}
             <main className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -146,7 +134,7 @@ function Dashboard() {
                     <ResultsDashboard
                         isLoading={isLoading}
                         error={error}
-                        batches={batches} // Pass the full array of batches
+                        batches={batches}
                     />
                 </motion.div>
             </main>

@@ -1,6 +1,6 @@
 import React from 'react';
 import StatCard from './StatCard';
-import ResultsSummary from './ResultsSummary'; // We will rename this to CandidateList soon
+import ResultsSummary from './ResultsSummary';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { useState, useMemo } from 'react';
@@ -28,8 +28,7 @@ const BatchCard = ({ batch }) => {
     try {
         const config = { headers: { Authorization: `Bearer ${user.token}` }, responseType: 'blob' };
         
-        // THE FIX: Send the entire 'batch' object. The backend will know how to handle it.
-        const response = await axios.post('http://localhost:5001/api/screen/report', { batch }, config);
+        const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen/report', { batch }, config);
 
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
@@ -49,7 +48,6 @@ const BatchCard = ({ batch }) => {
     
     return (
         <div className="bg-white dark:bg-surface border border-gray-200 dark:border-border rounded-xl shadow-lg p-6 space-y-6">
-            {/* Batch Header */}
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{batch.jobTitle}</h2>
@@ -58,20 +56,17 @@ const BatchCard = ({ batch }) => {
                     </p>
                 </div>
                  <button onClick={handleDownloadReport} disabled={isDownloading} className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center gap-2">
-                    {/* Download Icon */}
                     <span className="hidden sm:inline">{isDownloading ? 'Generating...' : 'Download Report'}</span>
                 </button>
             </div>
             {error && <div className="text-red-500">{error}</div>}
 
-            {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <StatCard title="Total Resumes" value={summaryStats.total} />
                 <StatCard title="Top Tier (≥80)" value={summaryStats.topTier} />
                 <StatCard title="Top Candidate" value={summaryStats.topCandidate} />
             </div>
 
-            {/* Candidate List */}
             <div>
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">Candidate Ranking</h3>
                 <ResultsSummary results={batch.candidates} />

@@ -1,14 +1,13 @@
 import React from 'react';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
-import BatchCard from './BatchCard'; // Import the new BatchCard
+import BatchCard from './BatchCard';
 import { motion } from 'framer-motion';
 
 const ResultsDashboard = ({ isLoading, error, batches }) => {
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error} />;
-  
-  // Show a placeholder if there are no batches in the history
+
   if (!batches || batches.length === 0) {
       return (
         <div className="text-center text-gray-500 dark:text-text-secondary py-20">

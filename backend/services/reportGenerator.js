@@ -2,7 +2,6 @@ const PDFDocument = require('pdfkit');
 const path = require('path');
 const QRCode = require('qrcode');
 
-// --- DESIGN CONSTANTS ---
 const colors = {
     primary: '#4F46E5',
     text: '#1F2937',
@@ -20,10 +19,8 @@ const fonts = {
     bold: path.join(__dirname, '../assets/Inter-Bold.ttf'),
 };
 
-// --- HELPER FUNCTIONS ---
-
 function generateHeader(doc) {
-    doc.image(path.join(__dirname, '../assets/logo.png'), 25, 41, { width: 160 }); // Adjusted Y slightly as well
+    doc.image(path.join(__dirname, '../assets/logo.png'), 25, 41, { width: 160 });
     doc.fillColor(colors.text).font(fonts.bold).fontSize(20).text('Screening Summary', 50, 47, { align: 'center' });
     doc.fillColor(colors.muted).font(fonts.regular).fontSize(10).text(`Report Date: ${new Date().toLocaleDateString()}`, 50, 52, { align: 'right' });
     generateHr(doc, 95);
@@ -68,7 +65,6 @@ function generateScoreBar(doc, label, score) {
     doc.moveDown(1.5);
 }
 
-// --- MAIN FUNCTION (ASYNC) ---
 async function buildReport(dataCallback, endCallback, batch, appUrl) {
     const doc = new PDFDocument({ bufferPages: true, margin: 50 });
     const results = batch.candidates;
@@ -79,11 +75,9 @@ async function buildReport(dataCallback, endCallback, batch, appUrl) {
     doc.on('data', dataCallback);
     doc.on('end', endCallback);
 
-    // --- AGGREGATE DATA ---
     const sortedResults = [...results].sort((a, b) => b.screeningResult.match_score - a.screeningResult.match_score);
     const topCandidate = sortedResults[0]?.screeningResult.candidate_name || 'N/A';
-    
-    // ======================== TITLE PAGE ========================
+
     generateHeader(doc);
     
     generateStatCard(doc, 130, 140, 'TOTAL RESUMES', `${results.length}`);
@@ -111,8 +105,7 @@ async function buildReport(dataCallback, endCallback, batch, appUrl) {
     });
 
     await generateFooter(doc, appUrl);
-    
-    // ======================== JOB DESCRIPTION PAGE ========================
+
     if (batch.jobDescription) {
         doc.addPage();
         generateHeader(doc);
@@ -122,9 +115,7 @@ async function buildReport(dataCallback, endCallback, batch, appUrl) {
         doc.fontSize(11).font('Inter-Regular').fillColor(colors.muted).text(cleanedJd, { align: 'justify', lineGap: 4 });
         await generateFooter(doc, appUrl);
     }
-    
-    // ======================== DETAIL PAGES ========================
-    // THE FIX: Loop over 'sortedResults' instead of 'results'
+
     for (const result of sortedResults) {
         doc.addPage();
         generateHeader(doc);
@@ -194,4 +185,3 @@ async function buildReport(dataCallback, endCallback, batch, appUrl) {
 }
 
 module.exports = { buildReport };
-

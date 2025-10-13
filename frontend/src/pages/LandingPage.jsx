@@ -15,7 +15,6 @@ function LandingPage() {
     return (
         <div className="min-h-screen w-full p-4 sm:p-8 bg-gray-100 dark:bg-background transition-colors duration-300">
             <ThemeToggle />
-            {/* Hero Section */}
             <motion.div 
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -42,7 +41,6 @@ function LandingPage() {
                 </div>
             </motion.div>
 
-            {/* Features Section */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

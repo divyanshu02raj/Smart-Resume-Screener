@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ThemeToggle from '../components/ThemeToggle';
-import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
-import ErrorMessage from '../components/ErrorMessage'; // Reuse the ErrorMessage component
+import { useAuth } from '../context/AuthContext';
+import ErrorMessage from '../components/ErrorMessage';
 
 function Signup() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        password2: '', // For password confirmation
+        password2: '',
     });
 
     const { email, password, password2 } = formData;
 
     const navigate = useNavigate();
-    const { signup } = useAuth(); // Get signup function from context
+    const { signup } = useAuth();
     const [localError, setLocalError] = useState(null);
 
     const onChange = (e) => {
@@ -34,7 +34,7 @@ function Signup() {
         setLocalError(null);
         try {
             await signup({ email, password });
-            navigate('/dashboard'); // Redirect to dashboard on successful signup
+            navigate('/dashboard');
         } catch (err) {
             setLocalError(err.message || 'Failed to sign up.');
         }

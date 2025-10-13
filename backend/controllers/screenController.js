@@ -107,23 +107,18 @@ exports.screenResume = async (req, res) => {
             return res.status(400).json({ error: "Job description is required." });
         }
 
-        // --- BATCH CREATION LOGIC ---
-
-        // 1. (Optional but cool) Ask AI for a job title from the JD
         const titlePrompt = `Based on the following job description, what is the job title? Respond with only the job title and nothing else. Job Description: ${jobDescription}`;
         const titleModel = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
         const titleResult = await titleModel.generateContent(titlePrompt);
         const jobTitle = await titleResult.response.text();
 
-        // 2. Create the new ScreeningBatch document
         const newBatch = new ScreeningBatch({
             user: req.user.id,
             jobDescription: jobDescription,
             jobTitle: jobTitle.trim(),
-            candidates: [], // Start with an empty array
+            candidates: [],
         });
 
-        // 3. Process all resumes and create Candidate documents
         const candidateProcessingPromises = req.files.map(async (file) => {
             const resumeText = await getTextFromPdf(file.buffer);
             const screeningResult = await callGeminiAPI(resumeText, jobDescription);
@@ -133,19 +128,17 @@ exports.screenResume = async (req, res) => {
                 screeningResult,
             });
             const savedCandidate = await newCandidate.save();
-            return savedCandidate._id; // Return just the ID
+            return savedCandidate._id;
         });
 
         const candidateIds = await Promise.all(candidateProcessingPromises);
-        
-        // 4. Add all the new candidate IDs to the batch and save it
+
         newBatch.candidates = candidateIds;
         await newBatch.save();
 
-        // 5. Populate the batch with the full candidate details before sending it back
         const populatedBatch = await ScreeningBatch.findById(newBatch._id).populate('candidates');
 
-        res.status(201).json([populatedBatch]); // Return as an array to keep frontend consistent
+        res.status(201).json([populatedBatch]);
 
     } catch (error) {
         console.error("Error in screenResume controller:", error);
@@ -155,13 +148,13 @@ exports.screenResume = async (req, res) => {
 
 
 exports.generateReport = async (req, res) => {
-    const { batch } = req.body; // We now receive the full batch object
+    const { batch } = req.body;
 
     if (!batch || !batch.candidates) {
         return res.status(400).json({ message: "Invalid batch data provided." });
     }
     
-    const appUrl = "http://localhost:3000"; //https://smart-resume-screener-one.vercel.app
+    const appUrl = "https://smart-resume-screener-one.vercel.app";
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename=${batch.jobTitle || 'report'}.pdf`);
@@ -169,7 +162,7 @@ exports.generateReport = async (req, res) => {
     await buildReport(
         (chunk) => res.write(chunk),
         () => res.end(),
-        batch, // Pass the entire batch object to the report builder
+        batch,
         appUrl
     );
 };
@@ -188,8 +181,6 @@ exports.getScreeningHistory = async (req, res) => {
 
 exports.getScreeningHistory = async (req, res) => {
     try {
-        // Find all batches for the logged-in user, sort by most recent,
-        // and populate them with the full candidate data.
         const history = await ScreeningBatch.find({ user: req.user.id })
             .sort({ createdAt: -1 })
             .populate('candidates');
