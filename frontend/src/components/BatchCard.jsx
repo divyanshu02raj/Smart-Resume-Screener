@@ -1,6 +1,7 @@
 import React from 'react';
 import StatCard from './StatCard';
 import ResultsSummary from './ResultsSummary';
+import ScoreDistributionChart from './ScoreDistributionChart'; 
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { useState, useMemo } from 'react';
@@ -48,7 +49,7 @@ const BatchCard = ({ batch }) => {
     
     return (
         <div className="bg-white dark:bg-surface border border-gray-200 dark:border-border rounded-xl shadow-lg p-6 space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-start">
                 <div>
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{batch.jobTitle}</h2>
                     <p className="text-sm text-gray-500 dark:text-text-secondary">
@@ -59,17 +60,32 @@ const BatchCard = ({ batch }) => {
                     <span className="hidden sm:inline">{isDownloading ? 'Generating...' : 'Download Report'}</span>
                 </button>
             </div>
-            {error && <div className="text-red-500">{error}</div>}
+            {error && <div className="text-red-500 dark:text-red-400">{error}</div>}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <StatCard title="Total Resumes" value={summaryStats.total} />
-                <StatCard title="Top Tier (≥80)" value={summaryStats.topTier} />
-                <StatCard title="Top Candidate" value={summaryStats.topCandidate} />
-            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            <div>
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">Candidate Ranking</h3>
-                <ResultsSummary results={batch.candidates} />
+                <div className="lg:col-span-2">
+                     <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Candidate Ranking</h3>
+                     <ResultsSummary results={batch.candidates} />
+                </div>
+
+                <div className="space-y-6">
+                    <div>
+                        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Batch Analytics</h3>
+                        <div className="space-y-4">
+                            <StatCard title="Total Resumes" value={summaryStats.total} />
+                            <StatCard title="Top Tier (≥80)" value={summaryStats.topTier} />
+                            <StatCard title="Top Candidate" value={summaryStats.topCandidate} />
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Score Distribution</h3>
+                        <div className="bg-gray-100 dark:bg-background rounded-lg p-4">
+                            <ScoreDistributionChart results={batch.candidates} />
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

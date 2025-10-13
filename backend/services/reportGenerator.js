@@ -20,7 +20,7 @@ const fonts = {
 };
 
 function generateHeader(doc) {
-    doc.image(path.join(__dirname, '../assets/logo.png'), 25, 41, { width: 160 });
+    doc.image(path.join(__dirname, '../assets/app_logo.png'), 35, 34, { width: 85 });
     doc.fillColor(colors.text).font(fonts.bold).fontSize(20).text('Screening Summary', 50, 47, { align: 'center' });
     doc.fillColor(colors.muted).font(fonts.regular).fontSize(10).text(`Report Date: ${new Date().toLocaleDateString()}`, 50, 52, { align: 'right' });
     generateHr(doc, 95);

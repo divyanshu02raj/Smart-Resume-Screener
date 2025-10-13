@@ -9,9 +9,9 @@ const generateToken = (id) => {
 };
 
 exports.signupUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!email || !password) {
+    if (!name || !email || !password) {
         return res.status(400).json({ message: 'Please enter all fields' });
     }
 
@@ -24,6 +24,7 @@ exports.signupUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
+        name,
         email,
         password: hashedPassword,
     });
@@ -31,6 +32,7 @@ exports.signupUser = async (req, res) => {
     if (user) {
         res.status(201).json({
             _id: user.id,
+            name: user.name,
             email: user.email,
             token: generateToken(user._id),
         });
@@ -48,6 +50,7 @@ exports.loginUser = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
             _id: user.id,
+            name: user.name,
             email: user.email,
             token: generateToken(user._id),
         });
@@ -57,8 +60,5 @@ exports.loginUser = async (req, res) => {
 };
 
 exports.getMe = async (req, res) => {
-    // The 'protect' middleware has already run, verified the token,
-    // and attached the user to the request object (req.user).
-    // We just need to send it back.
     res.status(200).json(req.user);
 };
