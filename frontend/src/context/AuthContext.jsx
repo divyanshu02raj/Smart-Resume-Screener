@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
                             Authorization: `Bearer ${storedUser.token}`,
                         },
                     };
-L
+
                     await axios.get('https://smart-resume-screener-mcth.onrender.com/api/users/me', config);
 
                     setUser(storedUser);
