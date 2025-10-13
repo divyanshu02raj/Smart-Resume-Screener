@@ -63,3 +63,10 @@ exports.loginUser = async (req, res) => {
         res.status(400).json({ message: 'Invalid credentials' });
     }
 };
+
+exports.getMe = async (req, res) => {
+    // The 'protect' middleware has already run, verified the token,
+    // and attached the user to the request object (req.user).
+    // We just need to send it back.
+    res.status(200).json(req.user);
+};
