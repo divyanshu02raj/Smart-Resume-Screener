@@ -9,9 +9,6 @@
 </p>
 
 <p align="center">
-  <a href="https://smart-resume-screener-one.vercel.app/">
-    <img src="https://img.shields.io/badge/Live%20Demo-Vercel-brightgreen?logo=vercel" alt="Live Demo">
-  </a>
   <a href="https://github.com/divyanshu02raj/Smart-Resume-Screener">
     <img src="https://img.shields.io/badge/Project-MERN%20Stack-blue?logo=javascript" alt="MERN Stack">
   </a>
@@ -44,7 +41,7 @@
 Experience the **Smart Resume Screener** in action:
 
 - **Live Demo:** [Click here to try the app](https://smart-resume-screener-one.vercel.app)
-- **Video Demo:** [Watch the walkthrough](https://your-video-demo-link.com)
+- **Video Demo:** [Watch the walkthrough](https://youtu.be/JzD-zPvhGPw)
 - **Source Code:** [GitHub Repository](https://github.com/divyanshu02raj/Smart-Resume-Screener)
 
 
@@ -53,17 +50,16 @@ Experience the **Smart Resume Screener** in action:
 1. [Overview](#1-overview)
 2. [Key Features](#2-key-features)
 3. [Tech Stack](#3-tech-stack)
-4. [Architecture](#4-architecture)
-5. [Architecture Diagram](#5-architecture-diagram)
-6. [The “A-Grade” LLM Prompt](#6-the-a-grade-llm-prompt)
-7. [Folder Structure](#7-folder-structure)
-8. [How to Run Locally](#8-how-to-run-locally)
-9. [Future Enhancements](#9-future-enhancements)
-10. [Screenshots / Demo Flow](#10-screenshots--demo-flow)
+4. [Screenshots](#4-screenshots)
+5. [Architecture](#5-architecture)
+6. [Architecture Diagram](#6-architecture-diagram)
+7. [The LLM Prompt](#7-the-llm-prompt)
+8. [Folder Structure](#8-folder-structure)
+9. [How to Run Locally](#9-how-to-run-locally)
+10. [Future Enhancements](#10-future-enhancements)
 11. [Contributing](#11-contributing)
 12. [Acknowledgments](#12-acknowledgments)
 13. [Author](#13-author)
-14. [License](#14-license)
 
 
 
@@ -124,7 +120,57 @@ The entire application supports a **seamless light/dark theme** toggle, with use
 | **Deployment** | Frontend → Vercel, Backend → Render |
 
 
-## 4. Architecture
+## 4. Screenshots
+
+- #### Landing Page:
+The public-facing entry point of the application, featuring a dark-mode theme, headline, key value proposition cards, and call-to-action buttons.
+
+![Landing Page](screenshots/LandingPage.png)
+
+---
+
+- #### User Authentication:
+Secure and seamless authentication with Signup and Login pages.
+
+**Signup Page:**
+![Signup](screenshots/Signup.png)
+
+**Login Page:**
+![Login](screenshots/Login.png)
+
+---
+
+- #### Main Application Dashboard:
+Central hub for creating new screenings, viewing recent screenings, and uploading multiple resumes.
+
+![Dashboard](screenshots/Dashboard.png)
+
+---
+
+- #### Screening History:
+Overview of all past screening batches, grouped by job title, with mini-dashboard analytics on each batch.
+
+![History](screenshots/History.png)
+
+---
+
+- #### Interactive Batch Analytics & Results:
+Detailed insights for each batch: candidate ranking, score distribution, and expandable candidate analysis.
+
+![Batch Analytics 1](screenshots/BatchAnalytics1.png)
+![Batch Analytics 2](screenshots/BatchAnalytics2.png)
+
+---
+
+- #### Professional PDF Report:
+Multi-page report for offline sharing, including summary, job description, and detailed candidate analysis.
+
+![PDF Report 1](screenshots/PDFReport1.png)
+![PDF Report 2](screenshots/PDFReport2.png)
+![PDF Report 3](screenshots/PDFReport3.png)
+
+
+## 5. Architecture
 
 The application follows a standard and scalable full-stack architecture with a clear separation of concerns:
 
@@ -153,19 +199,18 @@ The application follows a standard and scalable full-stack architecture with a c
 - Stores users, screening batches, and candidates in structured collections.  
 - Efficient schema design ensures scalable batch-oriented storage.
 
-## 5. Architecture Diagram
+## 6. Architecture Diagram
 The diagram below illustrates the end-to-end flow of the Smart Resume Screener application, showing how the **frontend**, **backend**, and **AI integration** work together.
 
 ![Workflow Diagram](screenshots/WorkflowDiagram.svg)
 ---
 
-## 6. The “A-Grade” LLM Prompt
+## 7. The LLM Prompt
 
 A core component of this project is the **advanced prompt engineering** used to elicit high-quality, structured, and nuanced results from the Gemini API.  
 This prompt defines a **professional persona** and a **multi-criteria rubric** for candidate evaluation.
 
-<details>
-<summary>📜 Click to view the full AI prompt</summary>
+
 
 You are an elite technical recruiter and former Principal Engineer at a top tech company.  
 You have extremely high standards and an expert eye for talent.  
@@ -231,10 +276,10 @@ Final Score = 0.35 * Experience_Relevance + 0.30 * Skills_Match + 0.25 * Project
   "final_score": 8.4
 }
 ```
-</details>
 
 
-## 7. Folder Structure
+
+## 8. Folder Structure
 
 ```text
 smart-resume-screener/
@@ -284,7 +329,7 @@ smart-resume-screener/
 ```
 
 
-## 8. How to Run Locally
+## 9. How to Run Locally
 
 ### Prerequisites
 - Node.js v18+
@@ -332,7 +377,7 @@ npm start
 ```
 
 
-## 9. Future Enhancements
+## 10. Future Enhancements
 
 Planned improvements for upcoming versions are categorized into **high priority**, **nice-to-have**, and **stretch goals / AI improvements**:
 
@@ -351,54 +396,7 @@ Planned improvements for upcoming versions are categorized into **high priority*
 - **ML-Powered Candidate Ranking:** Complement Gemini scores with historical performance data for more accurate recommendations.
 
 
-## 10. Screenshots / Demo Flow
 
-- #### Landing Page:
-The public-facing entry point of the application, featuring a dark-mode theme, headline, key value proposition cards, and call-to-action buttons.
-
-![Landing Page](screenshots/LandingPage.png)
-
----
-
-- #### User Authentication:
-Secure and seamless authentication with Signup and Login pages.
-
-**Signup Page:**
-![Signup](screenshots/Signup.png)
-
-**Login Page:**
-![Login](screenshots/Login.png)
-
----
-
-- #### Main Application Dashboard:
-Central hub for creating new screenings, viewing recent screenings, and uploading multiple resumes.
-
-![Dashboard](screenshots/Dashboard.png)
-
----
-
-- #### Screening History:
-Overview of all past screening batches, grouped by job title, with mini-dashboard analytics on each batch.
-
-![History](screenshots/History.png)
-
----
-
-- #### Interactive Batch Analytics & Results:
-Detailed insights for each batch: candidate ranking, score distribution, and expandable candidate analysis.
-
-![Batch Analytics 1](screenshots/BatchAnalytics1.png)
-![Batch Analytics 2](screenshots/BatchAnalytics2.png)
-
----
-
-- #### Professional PDF Report:
-Multi-page report for offline sharing, including summary, job description, and detailed candidate analysis.
-
-![PDF Report 1](screenshots/PDFReport1.png)
-![PDF Report 2](screenshots/PDFReport2.png)
-![PDF Report 3](screenshots/PDFReport3.png)
 
 ## 11. Contributing
 
@@ -448,6 +446,3 @@ Divyanshu Raj
 🌐 GitHub: [https://github.com/divyanshuraj2206](https://github.com/divyanshuraj2206)  
 💼 LinkedIn: [https://www.linkedin.com/in/div02raj](https://www.linkedin.com/in/div02raj)
 
-## 14. License
-
-This project is licensed under the **MIT License** — feel free to use, modify, and distribute with attribution.
