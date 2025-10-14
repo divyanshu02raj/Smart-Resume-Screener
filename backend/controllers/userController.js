@@ -68,7 +68,7 @@ exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email
 exports.googleCallback = (req, res, next) => {
     passport.authenticate('google', (err, user, info) => {
         if (err) { return next(err); }
-        if (!user) { return res.redirect('https://smart-resume-screener-one.vercel.app//login'); }
+        if (!user) { return res.redirect('https://smart-resume-screener-one.vercel.app/login'); }
 
         const token = generateToken(user);
 
