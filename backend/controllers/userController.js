@@ -72,7 +72,7 @@ exports.googleCallback = (req, res, next) => {
 
         const token = generateToken(user);
 
-        res.redirect(`https://smart-resume-screener-one.vercel.app//auth/google/callback?token=${token}`);
+        res.redirect(`https://smart-resume-screener-one.vercel.app/auth/google/callback?token=${token}`);
 
     })(req, res, next);
 };
