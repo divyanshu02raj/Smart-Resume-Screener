@@ -51,9 +51,9 @@ Experience the **Smart Resume Screener** in action:
 2. [Key Features](#2-key-features)
 3. [Tech Stack](#3-tech-stack)
 4. [Screenshots](#4-screenshots)
-5. [Architecture](#5-architecture)
-6. [Architecture Diagram](#6-architecture-diagram)
-7. [The LLM Prompt](#7-the-llm-prompt)
+5. [The LLM Prompt](#5-the-llm-prompt)
+6. [Architecture](#6-architecture)
+7. [Architecture Diagram](#7-architecture-diagram)
 8. [Folder Structure](#8-folder-structure)
 9. [How to Run Locally](#9-how-to-run-locally)
 10. [Future Enhancements](#10-future-enhancements)
@@ -169,43 +169,7 @@ Multi-page report for offline sharing, including summary, job description, and d
 ![PDF Report 2](screenshots/PDFReport2.png)
 ![PDF Report 3](screenshots/PDFReport3.png)
 
-
-## 5. Architecture
-
-The application follows a standard and scalable full-stack architecture with a clear separation of concerns:
-
-**End-to-End Flow:**  
-1. **Frontend (React SPA)** → Users interact with dashboards, upload resumes, view analytics.  
-2. **Backend (Node.js + Express)** → Handles authentication, batch processing, AI integration, and PDF generation.  
-3. **AI Integration (Gemini API)** → Scores resumes based on multi-criteria prompt.  
-4. **Database (MongoDB)** → Stores users, batches, and candidate data.  
-5. **PDF Tools (pdfkit / pdf2json)** → Produces multi-page reports for offline sharing.
-
-### 🖥️ React Frontend
-- Single Page Application (SPA) for all user interactions.  
-- Navigation via React Router.  
-- Tailwind CSS for responsive design and Framer Motion for smooth animations.  
-- Chart.js for analytics charts and Axios for API calls.  
-- Context API manages global state (authentication, theme preferences).
-
-### ⚙️ Node.js / Express Backend
-- REST API server for authentication, business logic, AI integration, and data persistence.  
-- JWT + bcryptjs for secure authentication.  
-- Middleware protects critical routes.  
-- Communicates with Gemini API using an advanced, persona-driven prompt.  
-- PDF generation using pdfkit for professional, multi-page reports.
-
-### 🗄️ MongoDB Database
-- Stores users, screening batches, and candidates in structured collections.  
-- Efficient schema design ensures scalable batch-oriented storage.
-
-## 6. Architecture Diagram
-The diagram below illustrates the end-to-end flow of the Smart Resume Screener application, showing how the **frontend**, **backend**, and **AI integration** work together.
-
-![Workflow Diagram](screenshots/WorkflowDiagram.svg)
----
-
-## 7. The LLM Prompt
+## 5. The LLM Prompt
 
 A core component of this project is the **advanced prompt engineering** used to elicit high-quality, structured, and nuanced results from the Gemini API.  
 This prompt defines a **professional persona** and a **multi-criteria rubric** for candidate evaluation.
@@ -276,6 +240,41 @@ Final Score = 0.35 * Experience_Relevance + 0.30 * Skills_Match + 0.25 * Project
   "final_score": 8.4
 }
 ```
+
+## 6. Architecture
+
+The application follows a standard and scalable full-stack architecture with a clear separation of concerns:
+
+**End-to-End Flow:**  
+1. **Frontend (React SPA)** → Users interact with dashboards, upload resumes, view analytics.  
+2. **Backend (Node.js + Express)** → Handles authentication, batch processing, AI integration, and PDF generation.  
+3. **AI Integration (Gemini API)** → Scores resumes based on multi-criteria prompt.  
+4. **Database (MongoDB)** → Stores users, batches, and candidate data.  
+5. **PDF Tools (pdfkit / pdf2json)** → Produces multi-page reports for offline sharing.
+
+### 🖥️ React Frontend
+- Single Page Application (SPA) for all user interactions.  
+- Navigation via React Router.  
+- Tailwind CSS for responsive design and Framer Motion for smooth animations.  
+- Chart.js for analytics charts and Axios for API calls.  
+- Context API manages global state (authentication, theme preferences).
+
+### ⚙️ Node.js / Express Backend
+- REST API server for authentication, business logic, AI integration, and data persistence.  
+- JWT + bcryptjs for secure authentication.  
+- Middleware protects critical routes.  
+- Communicates with Gemini API using an advanced, persona-driven prompt.  
+- PDF generation using pdfkit for professional, multi-page reports.
+
+### 🗄️ MongoDB Database
+- Stores users, screening batches, and candidates in structured collections.  
+- Efficient schema design ensures scalable batch-oriented storage.
+
+## 7. Architecture Diagram
+The diagram below illustrates the end-to-end flow of the Smart Resume Screener application, showing how the **frontend**, **backend**, and **AI integration** work together.
+
+![Workflow Diagram](screenshots/WorkflowDiagram.svg)
+---
 
 
 
