@@ -22,7 +22,8 @@ const fonts = {
 function generateHeader(doc) {
     doc.image(path.join(__dirname, '../assets/app_logo.png'), 35, 34, { width: 85 });
     doc.fillColor(colors.text).font(fonts.bold).fontSize(20).text('Screening Summary', 50, 47, { align: 'center' });
-    doc.fillColor(colors.muted).font(fonts.regular).fontSize(10).text(`Report Date: ${new Date().toLocaleDateString()}`, 50, 52, { align: 'right' });
+    const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    doc.fillColor(colors.muted).font(fonts.regular).fontSize(10).text(`Report Date: ${new Date().toLocaleDateString('en-GB', dateOptions)}`, 50, 52, { align: 'right' });
     generateHr(doc, 95);
 }
 
