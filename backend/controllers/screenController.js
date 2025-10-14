@@ -154,7 +154,7 @@ exports.generateReport = async (req, res) => {
         return res.status(400).json({ message: "Invalid batch data provided." });
     }
     
-    const appUrl = "https://smart-resume-screener-one.vercel.app";
+    const appUrl = "https://smart-resume-screener-one.vercel.app/";
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename=${batch.jobTitle || 'report'}.pdf`);

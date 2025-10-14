@@ -26,10 +26,12 @@
   <img src="https://img.shields.io/badge/Database-MongoDB-brightgreen?logo=mongodb" alt="MongoDB">
   <img src="https://img.shields.io/badge/API-Express.js-lightgrey?logo=express" alt="Express.js">
   <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google" alt="Gemini">
+  <img src="https://img.shields.io/badge/Auth-Google%20OAuth%202.0-DB4437?logo=google" alt="Google OAuth 2.0">
   <img src="https://img.shields.io/badge/UI-TailwindCSS-38B2AC?logo=tailwind-css" alt="TailwindCSS">
   <img src="https://img.shields.io/badge/Charts-Chart.js-FF6384?logo=chart.js" alt="Chart.js">
   <img src="https://img.shields.io/badge/Animations-Framer%20Motion-0055FF?logo=framer" alt="Framer Motion">
 </p>
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel" alt="Vercel">
@@ -76,7 +78,8 @@ This project goes far beyond a basic resume parser, incorporating a suite of pro
 
 
 1. **Secure Multi-User Authentication**  
-A complete authentication system with **JWT** allows users to sign up, log in, and maintain a private, persistent history of their screenings.
+A complete authentication system with **JWT** and **Google OAuth 2.0** allows users to sign up using email/password or their Google account.  
+User sessions are securely maintained with JWT for personalized screening history.
 
 2. **AI-Powered Multi-Criteria Scoring**  
 Instead of a simple score, the application uses an **advanced AI prompt** to evaluate candidates on four distinct criteria:
@@ -118,6 +121,7 @@ The entire application supports a **seamless light/dark theme** toggle, with use
 | **Security**   | JWT (authorization), bcryptjs (password hashing) |
 | **PDF Tools**  | pdfkit (generation), pdf2json (parsing) |
 | **Deployment** | Frontend → Vercel, Backend → Render |
+| **Security / Auth** | JWT (authorization), bcryptjs (password hashing), Google OAuth 2.0 |
 
 
 ## 4. Screenshots
@@ -261,6 +265,7 @@ The application follows a standard and scalable full-stack architecture with a c
 
 ### ⚙️ Node.js / Express Backend
 - REST API server for authentication, business logic, AI integration, and data persistence.  
+- Integrated **Google OAuth 2.0** for secure third-party authentication via Google accounts.
 - JWT + bcryptjs for secure authentication.  
 - Middleware protects critical routes.  
 - Communicates with Gemini API using an advanced, persona-driven prompt.  
@@ -351,27 +356,29 @@ npm install
 
 #### 3️⃣ Install dependencies for the frontend
 ```bash
-cd ../frontend
+cd frontend
 npm install
 ```
 
 #### 4️⃣ Create a .env file inside the backend directory with the following:
 ```bash
-PORT=5000
+PORT=5001
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 GEMINI_API_KEY=your_gemini_api_key
+GOOGLE_CLIENT_ID=google_client_id
+GOOGLE_CLIENT_SECRET=google_client_secret
 ```
 
 #### 5️⃣ Start the backend server
 ```bash
-cd ../backend
+cd backend
 npm start
 ```
 
 #### 6️⃣ Start the frontend app
 ```bash
-cd ../frontend
+cd frontend
 npm start
 ```
 

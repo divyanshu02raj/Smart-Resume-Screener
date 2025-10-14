@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import LandingPage from './pages/LandingPage';
 import PrivateRoute from './components/PrivateRoute';
 import HistoryPage from './pages/HistoryPage';
+import GoogleCallback from './pages/GoogleCallback';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          
+          <Route path="/auth/google/callback" element={<GoogleCallback />} />
 
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />

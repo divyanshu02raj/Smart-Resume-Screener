@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
-const { protect } = require('../middleware/authMiddleware'); 
+const { signupUser, loginUser, getMe, googleAuth, googleCallback } = require('../controllers/userController');
+const { protect } = require('../middleware/authMiddleware');
 
-router.post('/signup', userController.signupUser);
-router.post('/login', userController.loginUser);
+router.post('/signup', signupUser);
+router.post('/login', loginUser);
 
-router.get('/me', protect, userController.getMe);
+router.get('/me', protect, getMe);
+
+router.get('/google', googleAuth);
+router.get('/google/callback', googleCallback);
 
 module.exports = router;

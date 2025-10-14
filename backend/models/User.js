@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
+    googleId: {
+    type: String,
+    },
     name: {
     type: String,
     required: [true, 'Please add a name'],
@@ -17,9 +20,13 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Please add a password'],
-        minlength: [6, 'Password must be at least 6 characters']
-    }
+        required: [
+            function() { 
+                return !this.googleId; 
+            }, 
+            'Please provide a password for email sign-up.'
+        ],
+    },
 }, {
     timestamps: true
 });

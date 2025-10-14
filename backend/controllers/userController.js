@@ -1,9 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (user) => {
+    return jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, {
         expiresIn: '30d',
     });
 };
@@ -34,13 +35,12 @@ exports.signupUser = async (req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id),
+            token: generateToken(user),
         });
     } else {
         res.status(400).json({ message: 'Invalid user data' });
     }
 };
-
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -52,7 +52,7 @@ exports.loginUser = async (req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id),
+            token: generateToken(user),
         });
     } else {
         res.status(400).json({ message: 'Invalid credentials' });
@@ -61,4 +61,18 @@ exports.loginUser = async (req, res) => {
 
 exports.getMe = async (req, res) => {
     res.status(200).json(req.user);
+};
+
+exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+exports.googleCallback = (req, res, next) => {
+    passport.authenticate('google', (err, user, info) => {
+        if (err) { return next(err); }
+        if (!user) { return res.redirect('https://smart-resume-screener-one.vercel.app//login'); }
+
+        const token = generateToken(user);
+
+        res.redirect(`https://smart-resume-screener-one.vercel.app//auth/google/callback?token=${token}`);
+
+    })(req, res, next);
 };

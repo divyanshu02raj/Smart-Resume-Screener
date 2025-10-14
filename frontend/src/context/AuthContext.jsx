@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import authService from '../features/auth/authService';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -20,9 +21,9 @@ export const AuthProvider = ({ children }) => {
                             Authorization: `Bearer ${storedUser.token}`,
                         },
                     };
-
                     await axios.get('https://smart-resume-screener-mcth.onrender.com/api/users/me', config);
-
+                    
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${storedUser.token}`;
                     setUser(storedUser);
 
                 } catch (err) {
@@ -64,13 +65,35 @@ export const AuthProvider = ({ children }) => {
         authService.logout();
         setUser(null);
     };
+    const loginWithToken = (token) => {
+        try {
+            const decoded = jwtDecode(token);
+
+            const userObject = {
+                id: decoded.id,
+                name: decoded.name,
+                token: token,
+            };
+
+            localStorage.setItem('user', JSON.stringify(userObject));
+
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            setUser(userObject);
+            setError(null);
+
+        } catch (err) {
+            console.error("Failed to decode token", err);
+            setError("Invalid authentication token.");
+            logout();
+        }
+    };
 
     return (
-        <AuthContext.Provider value={{ user, isLoading, error, login, signup, logout }}>
+        <AuthContext.Provider value={{ user, isLoading, error, login, signup, logout, loginWithToken }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
 export const useAuth = () => useContext(AuthContext);
-

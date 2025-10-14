@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import AuthLayout from '../components/AuthLayout';
 import PasswordInput from '../components/PasswordInput';
 import ErrorMessage from '../components/ErrorMessage';
+import GoogleAuthButton from '../components/GoogleAuthButton';
 
 function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -53,7 +54,7 @@ function Login() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="password" an="block text-gray-800 dark:text-text-primary font-semibold mb-2">Password</label>
+                    <label htmlFor="password" className="block text-gray-800 dark:text-text-primary font-semibold mb-2">Password</label>
                     <PasswordInput
                         id="password"
                         name="password"
@@ -72,6 +73,15 @@ function Login() {
                     </button>
                 </div>
             </form>
+
+
+            <div className="my-6 flex items-center">
+                <div className="flex-grow border-t border-gray-300 dark:border-border"></div>
+                <span className="mx-4 text-sm text-gray-500 dark:text-text-secondary">OR</span>
+                <div className="flex-grow border-t border-gray-300 dark:border-border"></div>
+            </div>
+
+            <GoogleAuthButton />
 
             <div className="mt-6 text-center">
                 <p className="text-gray-500 dark:text-text-secondary">
