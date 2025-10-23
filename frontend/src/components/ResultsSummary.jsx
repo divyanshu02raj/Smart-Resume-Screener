@@ -8,9 +8,6 @@ const ResultsSummary = ({ results }) => {
 
   return (
     <div className="bg-white dark:bg-surface border border-gray-200 dark:border-border rounded-xl shadow-lg">
-      <div className="p-4">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Candidate Ranking</h3>
-      </div>
       <div className="space-y-2 p-2">
         {sortedResults.map((result) => {
           const { match_score, candidate_name } = result.screeningResult;

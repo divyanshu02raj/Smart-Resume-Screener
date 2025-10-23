@@ -1,6 +1,7 @@
 import axios from 'axios';
+import API_BASE_URL from '../../apiConfig';
 
-const API_URL = 'https://smart-resume-screener-mcth.onrender.com/api/users/';
+const API_URL = `${API_BASE_URL}/api/users/`;
 
 const user = JSON.parse(localStorage.getItem('user'));
 

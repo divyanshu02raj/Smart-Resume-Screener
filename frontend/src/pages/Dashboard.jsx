@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import ScreeningForm from '../components/ScreeningForm';
 import ResultsDashboard from '../components/ResultsDashboard';
+import API_BASE_URL from '../apiConfig';
 
 function Dashboard() {
     const { user } = useAuth();
@@ -27,7 +28,7 @@ function Dashboard() {
             setIsFetchingHistory(true);
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const response = await axios.get('https://smart-resume-screener-mcth.onrender.com/api/screen', config);
+                const response = await axios.get(`${API_BASE_URL}/api/screen`, config);
 
                 if (response.data && response.data.length > 0) {
                     setLatestBatch([response.data[0]]);
@@ -66,7 +67,7 @@ function Dashboard() {
 
         try {
             const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` } };
-            const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen', formData, config);
+            const response = await axios.post(`${API_BASE_URL}/api/screen`, formData, config);
 
             setLatestBatch(response.data);
 

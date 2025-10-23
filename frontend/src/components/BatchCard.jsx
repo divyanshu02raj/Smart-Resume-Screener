@@ -5,6 +5,7 @@ import ScoreDistributionChart from './ScoreDistributionChart';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { useState, useMemo } from 'react';
+import API_BASE_URL from '../apiConfig';
 
 const BatchCard = ({ batch }) => {
     const { user } = useAuth();
@@ -29,7 +30,7 @@ const BatchCard = ({ batch }) => {
     try {
         const config = { headers: { Authorization: `Bearer ${user.token}` }, responseType: 'blob' };
         
-        const response = await axios.post('https://smart-resume-screener-mcth.onrender.com/api/screen/report', { batch }, config);
+        const response = await axios.post(`${API_BASE_URL}/api/screen/report`, { batch }, config);
 
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');

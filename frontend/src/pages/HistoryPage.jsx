@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import ResultsDashboard from '../components/ResultsDashboard';
+import API_BASE_URL from '../apiConfig';
 
 const HistoryPage = () => {
     const { user } = useAuth();
@@ -22,7 +23,7 @@ const HistoryPage = () => {
             setIsLoading(true);
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const response = await axios.get('https://smart-resume-screener-mcth.onrender.com/api/screen', config);
+                const response = await axios.get(`${API_BASE_URL}/api/screen`, config);
                 setBatches(response.data);
             } catch (err) {
                 console.error("Failed to fetch history:", err);

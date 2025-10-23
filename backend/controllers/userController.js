@@ -66,13 +66,18 @@ exports.getMe = async (req, res) => {
 exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 exports.googleCallback = (req, res, next) => {
+    const clientUrl = process.env.NODE_ENV === 'production'
+        ? process.env.CLIENT_URL_PROD
+        : process.env.CLIENT_URL_DEV;
+
     passport.authenticate('google', (err, user, info) => {
         if (err) { return next(err); }
-        if (!user) { return res.redirect('https://smart-resume-screener-one.vercel.app/login'); }
+
+        if (!user) { return res.redirect(`${clientUrl}/login`); }
 
         const token = generateToken(user);
 
-        res.redirect(`https://smart-resume-screener-one.vercel.app/auth/google/callback?token=${token}`);
+        res.redirect(`${clientUrl}/auth/google/callback?token=${token}`);
 
     })(req, res, next);
 };

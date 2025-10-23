@@ -154,7 +154,9 @@ exports.generateReport = async (req, res) => {
         return res.status(400).json({ message: "Invalid batch data provided." });
     }
     
-    const appUrl = "https://smart-resume-screener-one.vercel.app/";
+    const appUrl = process.env.NODE_ENV === 'production' 
+        ? process.env.CLIENT_URL_PROD 
+        : process.env.CLIENT_URL_DEV;
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename=${batch.jobTitle || 'report'}.pdf`);
@@ -169,15 +171,6 @@ exports.generateReport = async (req, res) => {
 
 
 
-exports.getScreeningHistory = async (req, res) => {
-    try {
-        const history = await Candidate.find({ user: req.user.id }).sort({ uploadDate: -1 });
-        res.status(200).json(history);
-    } catch (error) {
-        console.error("Error fetching history:", error);
-        res.status(500).json({ error: "Failed to fetch screening history." });
-    }
-};
 
 exports.getScreeningHistory = async (req, res) => {
     try {

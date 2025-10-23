@@ -1,4 +1,5 @@
 import React from 'react';
+import API_BASE_URL from '../apiConfig';
 
 const GoogleIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 48 48">
@@ -12,7 +13,7 @@ const GoogleIcon = () => (
 const GoogleAuthButton = () => {
     const handleGoogleLogin = () => {
 
-        window.location.href = 'https://smart-resume-screener-mcth.onrender.com/api/users/google';
+        window.location.href = `${API_BASE_URL}/api/users/google`;
     };
 
     return (

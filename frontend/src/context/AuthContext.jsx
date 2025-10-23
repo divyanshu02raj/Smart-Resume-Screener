@@ -2,6 +2,7 @@ import { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import authService from '../features/auth/authService';
 import { jwtDecode } from 'jwt-decode';
+import API_BASE_URL from '../apiConfig';
 
 const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
                             Authorization: `Bearer ${storedUser.token}`,
                         },
                     };
-                    await axios.get('https://smart-resume-screener-mcth.onrender.com/api/users/me', config);
+                    await axios.get(`${API_BASE_URL}/api/users/me`, config);
                     
                     axios.defaults.headers.common['Authorization'] = `Bearer ${storedUser.token}`;
                     setUser(storedUser);
