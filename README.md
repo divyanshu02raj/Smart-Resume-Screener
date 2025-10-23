@@ -362,12 +362,15 @@ npm install
 
 #### 4️⃣ Create a .env file inside the backend directory with the following:
 ```bash
+NODE_ENV=development (for local) #production (for deployment)
 PORT=5001
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 GEMINI_API_KEY=your_gemini_api_key
 GOOGLE_CLIENT_ID=google_client_id
 GOOGLE_CLIENT_SECRET=google_client_secret
+CLIENT_URL_DEV=http://localhost:3000
+CLIENT_URL_PROD=production_url
 ```
 
 #### 5️⃣ Start the backend server
