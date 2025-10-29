@@ -118,7 +118,6 @@ The entire application supports a **seamless light/dark theme** toggle, with use
 | **Backend**    | Node.js, Express.js |
 | **Database**   | MongoDB with Mongoose |
 | **AI Model**   | Google Gemini API (`gemini-flash-latest`) |
-| **Security**   | JWT (authorization), bcryptjs (password hashing) |
 | **PDF Tools**  | pdfkit (generation), pdf2json (parsing) |
 | **Deployment** | Frontend → Vercel, Backend → Render |
 | **Security / Auth** | JWT (authorization), bcryptjs (password hashing), Google OAuth 2.0 |
