@@ -277,7 +277,7 @@ The application follows a standard and scalable full-stack architecture with a c
 ## 7. Architecture Diagram
 The diagram below illustrates the end-to-end flow of the Smart Resume Screener application, showing how the **frontend**, **backend**, and **AI integration** work together.
 
-![Workflow Diagram](screenshots/WorkflowDiagram.svg)
+![Workflow Diagram](screenshots/WorkflowDiagram.png)
 ---
 
 
